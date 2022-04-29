@@ -1,0 +1,24 @@
+name: Stringified input workflow
+on:
+  workflow_dispatch:
+    inputs:
+      OS:
+        description: provide all OS in stringified array format
+        required: true
+        default: "['ubuntu-latest','windows-latest']"
+      NODE_VERSION:
+        description: provide all node versions in stringified array format
+        required: true
+        default: "['10','16']"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: '${{ matrix.OS }} ${{ matrix.NODE_VERSION }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        OS: ${{ fromJSON(github.event.inputs.OS) }}
+        NODE_VERSION: ${{ fromJSON(github.event.inputs.NODE_VERSION) }}
+    steps:
+      - name: running
+        run: echo "running job with ${{ matrix.OS }} ${{ matrix.NODE_VERSION }}"
