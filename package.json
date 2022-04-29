@@ -1,0 +1,31 @@
+{
+  "name": "dynamic-strategy-matrix-workflows",
+  "version": "1.0.0",
+  "description": "Github workflows examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaibhav-sarwade-404/node-dynamic-strategy-matrix-workflows.git"
+  },
+  "keywords": [
+    "Dynamic github actions",
+    "dynamic github actions matrix",
+    "dynamic github actions matrix strategy",
+    "node js github actions",
+    "dynamic node js github actions",
+    "dynamic github matrix",
+    "github actions"
+  ],
+  "author": "Vaibhav Sarwade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vaibhav-sarwade-404/node-dynamic-strategy-matrix-workflows/issues"
+  },
+  "homepage": "https://github.com/vaibhav-sarwade-404/node-dynamic-strategy-matrix-workflows#readme",
+  "devDependencies": {
+    "@actions/core": "^1.7.0"
+  }
+}

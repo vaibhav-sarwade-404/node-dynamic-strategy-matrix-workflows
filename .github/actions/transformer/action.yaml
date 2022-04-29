@@ -1,0 +1,20 @@
+# This is custom action, for transforming input to stringified output
+name: Workflow input transformer
+description: This custom action will transform input to stringified output
+inputs:
+  os:
+    description: provide which operating systems to use
+    required: true
+    default: "ubuntu-latest,windows-latest"
+  nodeversion:
+    description: provide which node version systems to use
+    required: true
+    default: "10,16"
+outputs:
+  os:
+    description: This is transformed output in array of string from provided os
+  nodeversion:
+    description: This is transformed output in array of string from provided linux versions
+runs:
+  using: node16
+  main: index.js

@@ -1,0 +1,52 @@
+name: Dynamic input matrix workflow
+on:
+  workflow_dispatch:
+    inputs:
+      OS:
+        description: provide all OS in stringified array format
+        required: true
+        default: "ubuntu-latest,windows-latest"
+      NODE_VERSION:
+        description: provide all node versions in stringified array format
+        required: true
+        default: "10,16"
+
+jobs:
+  prebuild:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.set-matrix.outputs.os }}
+      nodeVersion: ${{ steps.set-matrix.outputs.nodeVersion }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Use Node.js (16)
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+      - name: Install package
+        run: npm install
+      - name: transform input
+        id: transformInput
+        uses: ./.github/actions/transformer/
+        with:
+          os: ${{ github.event.inputs.OS }}
+          nodeversion: ${{ github.event.inputs.NODE_VERSION}}
+      - id: set-matrix
+        run: |
+          echo "::set-output name=os::${{ steps.transformInput.outputs.os }}"
+          echo "::set-output name=nodeVersion::${{ steps.transformInput.outputs.nodeversion }}"
+  build:
+    needs: prebuild
+    runs-on: ubuntu-latest
+    name: "${{ matrix.OS }} ${{ matrix.NODE_VERSION }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        OS: ${{fromJSON( needs.prebuild.outputs.os )}}
+        NODE_VERSION: ${{fromJSON( needs.prebuild.outputs.nodeVersion )}}
+    steps:
+      - name: running
+        run: echo "running job with ${{ matrix.OS }} ${{ matrix.NODE_VERSION }}"
